@@ -23,13 +23,48 @@ client = OpenAI(
 # ==========================================
 # 📢 [用户自定义区]：在这里填入你感兴趣的国内源（比如你本地部署的 WeRSS 链接，或独立博客 RSS）
 DOMESTIC_FEEDS = [
+    # 量子位（国内 AI 头部媒体，更新快）
+    "https://www.qbitai.com/feed",
+
+    # 机器之心（偏技术、论文解读）
+    "https://www.jiqizhixin.com/rss",
+
+    # 36氪 AI 频道（偏行业、创投资讯）
+    "https://36kr.com/information/AI/feed",
+
+    # IT之家（科技综合，AI 相关也会覆盖）
+    "https://www.ithome.com/rss/",
     "http://124.223.40.126:8001/feed/all.rss" # 示例：本地微信公众号聚合源
 ]
 
 # 📢 [用户自定义区]：在这里填入你感兴趣的国际源（如科技、财经、AI、设计等领域的 RSS）
 INTL_FEEDS = [
+    # OpenAI 官方博客（一手模型与产品动态）
+    "https://openai.com/news/rss.xml",
+
+    # Google DeepMind 官方博客（研究向）
+    "https://deepmind.google/blog/rss.xml",
+
+    # Hugging Face 博客（开源社区、模型生态）
+    "https://huggingface.co/blog/feed.xml",
+
+    # Mistral AI 官方新闻（欧洲开源模型代表）
+    "https://mistral.ai/news/rss",
+
+    # TechCrunch AI 频道（创投与商业视角）
+    "https://techcrunch.com/category/artificial-intelligence/feed/",
+
+    # The Verge AI 频道（产品与消费视角）
+    "https://www.theverge.com/rss/ai-artificial-intelligence/index.xml",
+
+    # arXiv 人工智能（最新论文，周末通常无更新）
+    "https://export.arxiv.org/rss/cs.AI",
+
+    # arXiv 机器学习（最新论文，周末通常无更新）
+    "https://export.arxiv.org/rss/cs.LG",
     "https://www.theverge.com/rss/index.xml",           # 示例：科技资讯 The Verge
     "https://hnrss.org/frontpage",                      # 示例：极客论坛 Hacker News
+    "https://openai.com/news/rss.xml",
     "https://www.economist.com/finance-and-economics/rss.xml" # 示例：经济学人
 ]
 
