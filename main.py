@@ -168,7 +168,6 @@ def process_news_pipeline(news_list, section_title, limit=None):
     valid_count = 0
     
     for item in news_list:
-        # 📢 [用户自定义区]：控制每个版块最多输出多少篇文章，防止推送超载
         if limit is not None and valid_count >= limit:
             print(f"🛑 {section_title} 已达到 {limit} 篇上限，停止分析。")
             break
@@ -179,11 +178,10 @@ def process_news_pipeline(news_list, section_title, limit=None):
         
         analysis = analyze_with_deepseek(item['title'], full_text, item['source'])
         
+        # 仍然用 AI 判断是否有效，但不再把分析正文写进推送
         if "无效资讯" not in analysis:
             valid_count += 1
-            report_text += f"### {valid_count}. {item['title']}\n"
-            report_text += f"🔗 **原文直达**：[点击阅读全文]({item['url']})\n\n"
-            report_text += f"{analysis}\n\n---\n\n"
+            report_text += f"{valid_count}. [{item['title']}]({item['url']})\n"
             
     if valid_count == 0:
         report_text += "> 🛡️ *本周期内暂无符合价值研判标准的新鲜动态。*\n\n---\n\n"
@@ -209,12 +207,17 @@ if __name__ == "__main__":
     
     # 推送至微信 (使用 HTTPS 防止被拦截)
     try:
-        requests.post("https://www.pushplus.plus/send", json={
+        resp = requests.post("https://www.pushplus.plus/send", json={
             "token": PUSHPLUS_TOKEN,
             "title": f"【本周推送】{REPORT_TITLE} - {today_str}",
             "content": final_report,
             "template": "markdown"
         }, timeout=15)
-        print("✅ 任务完成，周报已成功发送至微信！")
+
+        result = resp.json()
+        if result.get("code") == 200:
+            print("✅ 任务完成，周报已成功发送至微信！")
+        else:
+            print(f"❌ 推送被拒绝：{result.get('msg')} - {result.get('data')}")
     except Exception as e:
         print(f"❌ 推送失败，请检查网络或 Token 配置: {e}")
